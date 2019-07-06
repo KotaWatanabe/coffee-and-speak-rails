@@ -1,0 +1,410 @@
+html {
+    --border-radius: 5px;
+    // font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    // font-family: "Hiragino Kaku Gothic ProN";
+    // font-family: 'Holtwood One SC', serif;
+    font-family: 'Playfair Display', serif;
+    font-family: 'Just Another Hand', cursive;
+    font-family: 'Dosis', sans-serif;
+  }
+  body{
+    // font-family: 'Holtwood One SC', serif;
+    font-family: 'Dosis', sans-serif;
+        // font-family: 'Holtwood One SC', serif;
+        // font-family: 'Playfair Display', serif;
+        // font-family: 'Just Another Hand', cursive;
+  }
+  .padding{
+    padding: 1em;
+  }
+
+  a{
+    color:black;
+    text-decoration: none;
+  }
+  a:hover{
+    color:black;
+    // text-decoration: none;
+  }
+
+  h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  margin-bottom: 1rem;}
+
+
+  h1 {
+    padding-top: 0.5em;
+  }
+
+.navbar{
+    padding: 1em;
+    background:#2E8B57;
+}
+header{
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+.navbar li{
+   padding-left: 1em;
+   padding-right: 1em;
+   font-size:1.2em;
+}
+
+// welcome page//
+
+.welcome-title{
+    width: 100%;
+    padding: 0 1em;
+    margin: 0 auto;
+}
+li{
+  list-style: none;
+  margin-left: 0;
+}
+  
+  .top-wrapper{
+    background-image:url("welcome2");
+    color:white;
+    background-size:cover;
+    text-align:center;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+  }
+ 
+  .top-wrapper h1{
+    opacity:0.8;
+  }
+
+  .top-wrapper p{
+    opacity:0.8;
+  }
+
+  .btn {
+    padding: 0.5em 1em;
+    color: white;
+    display: inline-block;
+    opacity: 0.8;
+    border-radius:0.3em;
+    font-size:1.5em;
+  }
+  
+  .btn:hover{
+    opacity:1;
+    
+  }
+  .request-box{
+    margin-bottom: 3em;
+  }
+  .review-box{
+    margin-bottom: 3em;
+  }
+
+  .signup {
+    background-color: #239b76;
+    font-size:2em;
+  }
+
+  .new-teacher {
+    background-color: #3b5998;
+  }
+  
+  .btn-wrapper {
+    margin: 2em 0;
+  }
+  
+  .btn-wrapper p {
+    margin: 0.5em 0;
+    font-size:1.5em;
+    opacity:0.8;
+  }
+
+  fieldset { 
+    display: none; 
+  }
+
+  .btn .full-width{
+    width:100%;
+  }
+
+  //singin page
+  .signin-wrapper{
+    display:flex;
+  }
+  .signin-content{
+    flex:1;
+  }
+  .signin-image{
+    flex:1;
+    background-image:url("sign--in");
+    background-size:cover;
+    min-height: 100vh;
+    opacity:0.4;
+}
+
+  // user dashboard
+
+  .dashboard-wrapper,
+
+  .lesson-box,
+  .favourite-box,
+  .requested-box, .declined-lessons, .requested-lessons, .upcoming-classes, .approved-lessons, .completed-lessons, .favourite-teachers {
+    display: block; width: 100%; min-height: 20vh;
+  }
+
+
+.approved-lessons, .completed-lessons 
+.waiting-lessons 
+  .favourited-card{
+    padding:0 2em;
+  }
+
+  // teacher index page/
+
+   img {max-width: 100%; height: auto;}
+
+  .teachers-row{
+    padding: 1em 2em;
+  }
+  .teacher-box{
+    display:block;
+    width: 100%;
+  }
+  .teacher-image{
+    width:100%;
+  }
+  .teacher-content{
+    width:100%;
+    margin-left: 0;
+  }
+  .teacher-card{
+    margin-bottom: 2em;
+    width: 100%;
+    transition:all 0.3s ease-out;
+    // background:hsla(6, 93%, 71%, 0.3);
+    background:hsla(146, 50%, 36%, 0.3);
+    padding: 1em;
+  }
+  
+  .teacher-card:hover{
+    box-shadow: 10px 10px 0px 0px rgba(0,0,0,1);
+    transform:translateY(-2px) scale(1) translateZ(0);
+  }
+  
+  .new-teacher-form{
+    margin-bottom: 2em;
+  }
+
+  // teacher show page
+
+  .teacher-wrapper{
+    display:flex;
+    margin: 2em;
+  }
+  .teacher-profile-box{
+    flex:1;
+    padding: 1em;
+  }
+  .teacher-booking-box{
+    flex:1;
+    padding: 1em;
+  }
+
+  .review-title{
+    margin-left: 1em;
+  }
+
+  // teacher dashboard
+
+// teacher index
+
+.index-image{
+  // width: 150px;
+  // height: 150px;
+  border-radius:50px;
+}
+.show-image,.dashboard-image{
+  // width: 350px;
+  // height: 350px;
+  border-radius:80px;
+}
+
+.teacher-box{
+  display:flex;
+  width: 100%;
+}
+.teacher-image{
+  width:50%;
+  text-align:center;
+}
+.teacher-content{
+  width:50%;
+  margin-left: 1em;
+}
+.teacher-show-box{
+  background:hsla(146, 50%, 36%, 0.3);
+  padding: 1em;
+}
+// .image-of-teacher{
+//   flex:1;
+// }
+// .image-of-student{
+//   flex:1;
+// }
+.timeslot-time{
+  margin-left: 0.5em;
+}
+
+
+
+.badge{
+  font-size:1.2em;
+}
+
+// star
+.checked {
+  color: orange;
+}
+footer{
+  background:#2E8B57;
+  text-align: center;
+  padding: 0em;
+  position: fixed;
+  bottom: 0;
+  width:100%;
+}
+// stripe
+.StripeElement {
+  box-sizing: border-box;
+
+  height: 40px;
+
+  padding: 10px 12px;
+
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background-color: white;
+
+  box-shadow: 0 1px 3px 0 #e6ebf1;
+  -webkit-transition: box-shadow 150ms ease;
+  transition: box-shadow 150ms ease;
+}
+
+.StripeElement--focus {
+  box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.StripeElement--invalid {
+  border-color: #fa755a;
+}
+
+.StripeElement--webkit-autofill {
+  background-color: #fefde5 !important;
+}
+.pay-card{
+  padding: 3em;
+  margin-top: 2em;
+}
+.pay-button{
+  margin:1em 0 0.5em 0;
+}
+
+.thanks-box{
+  text-align:center;
+  align-items: center;
+  justify-content: center;
+}
+
+// .thanks-message{
+//   margin:0.5em 0 2em 0;
+// }
+.blue{
+  text-decoration: underline;
+}
+.check-mark{
+  color: #239b76;
+}
+.check-box{
+  display:none;
+}
+
+/*DESKTOP LAST */
+@media screen and (min-width: 1024px) {
+body {
+
+  .dashboard-wrapper,
+
+  .lesson-box,
+  .favourite-box,
+  .requested-box, .declined-lessons, .requested-lessons, .upcoming-classes, .approved-lessons, .completed-lessons, .favourite-teachers, .waiting-lessons {
+    display: block; width: 100%; min-height: 20vh; padding: 2em;
+  }
+
+  // user dashboard
+
+  .dashboard-wrapper{
+    display:flex;
+  }
+
+  .lesson-box{
+    flex:1;
+  }
+  .favourite-box{
+    flex:1;
+  }
+  .requested-box{
+    flex:1;
+  }
+  .favourited-card{
+    padding:0 2em;
+  }
+
+
+  .teacher-box{
+    display:flex;
+    width: 100%;
+  }
+  .teacher-image{
+    width:50%;
+    text-align:center;
+  }
+  .teacher-content{
+    width:50%;
+    margin-left: 1em;
+  }
+  .teacher-show-box{
+    display:flex;
+    width: 100%;
+    background:hsla(146, 50%, 36%, 0.3);
+    padding: 1em;
+  }
+  .teacher-show-image{
+    width:50%;
+    text-align:center;
+  }
+  .teacher-show-content{
+    width:50%;
+    margin-left: 1em;
+  }
+
+  .index-image{
+    border-radius:50px
+  }
+  .show-image{
+    border-radius:80px;
+    width:300px;
+  }
+  .like-button{
+    margin-left: 1em;
+  }
+  .language-tag{
+    margin-bottom: 2em;
+  }
+  .timeslot-time{
+    margin-left: 0.5em;
+  }
+}
+}

@@ -1,0 +1,2 @@
+ENV['STRIPE_PUBLISHABLE_KEY'] = "pk_test_LfqNdoDq5vnMK3i6g3J4ALzs00zIUPlBMj"
+ENV['STRIPE_SECRET_KEY'] = "sk_test_d8wdwWIWCzb0xyxKkXlOzxGa0001v3G7vY"

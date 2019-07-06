@@ -1,0 +1,120 @@
+<div class="container-fluid padding">
+
+  <div class="teacher-show-box">
+            <div class="teacher-show-image"> 
+              <div class="image-of-teacher">
+                <h2>Teacher:<%= @teacher.user.full_name %></h2>
+               <% if @teacher.user.avatar.attached? %>
+                  <%= image_tag url_for(@teacher.user.avatar), :class => "show-image" %>
+               <% else %>
+                  <%= image_tag("default.png")%>
+              <% end %>
+              </div>
+              <div class="image-of-student">
+            <h2>Student:<%= @user.full_name %></h2>
+               <% if @user.avatar.attached? %>
+                  <%= image_tag url_for(@user.avatar), :class => "show-image" %>
+               <% else %>
+                  <%= image_tag("default.png")%>
+              <% end %>
+            </div>
+            </div><!--teacher-image-->
+
+            <div class="lesson-state">
+             <%= @lesson.aasm_state %>
+            </div>
+          <div class="teacher-show-content">
+            <div class="teacher-description">
+                  <h3>$<%= @teacher.price %> CAD</h3>
+                      <% unless @teacher.languages.empty? %>
+                        <div>
+                          <% @teacher.languages.each do |language| %>
+                          <%= link_to(language.name, teachers_path(language: language.name), class: "badge badge-pill badge-primary") %>
+                        </div>
+                          <% end %>
+                      <% end %>  
+                      <p>Message from Student: <%= @lesson.comment%></p>
+                      <p>Answer from Teacher: <%= @lesson.answer%></p>
+                      <small>
+                         <%= link_to(
+                         "Delete",
+                         lesson_path(@lesson),
+                         method: :delete, data: {
+                           confirm: "Are you sure?"
+                         }
+                         ) %>
+                      </small>
+                      <small>
+                         <%= link_to(
+                         "Edit",
+                        edit_lesson_path(@lesson)
+                         ) %>
+                      </small>
+
+                     
+                          <% if @lesson.aasm_state === "payed" && current_user.teacher %>
+                           <p>If this lesson is already finished, please click "Completed" button</p>  
+                            <%= form_with url: finish_lesson_path, :method => :PUT, local: true do |f| %>
+                            <div class="form-group">
+                              <%= f.hidden_field :lesson, value: @lesson.id %>
+                              <%= f.hidden_field :teacher, value: @lesson.teacher.id %>
+                              <%= f.hidden_field :user, value: @lesson.user.id %>
+                              <%= f.hidden_field :comment, value: @lesson.comment %>
+                            </div>
+                            <%= f.submit 'Completed', class: 'btn btn-warning col-6 col-md-3 mb-3' %>
+                        <% end %>
+                    <% end %>
+
+            </div>
+            <div class="teacher-map">
+            <!-----------------------map------------------------------>
+                  <div style='width: 600px;'>
+                    <div id="map" style='width: 600px; height: 400px;'></div>
+                  </div>
+
+                  <script>
+                    const handler = Gmaps.build('Google');
+                    handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+                      markers = handler.addMarkers([
+                        {
+                          "lat": <%= @teacher.latitude %>,
+                          "lng": <%= @teacher.longitude %>,
+                          "infowindow": "<%= @teacher.user.first_name %>'s location"
+                        }
+                      ]);
+                      handler.bounds.extendWith(markers);
+                      handler.fitMapToBounds();
+                      handler.getMap().setZoom(12)
+                    });
+
+                  </script>
+            <!-----------------------map------------------------------>
+              </div>
+
+              </div><!--teacher-content-->
+
+
+    </div><!--teacher-box-->
+
+
+                  <% if @lesson.aasm_state === "finished" %>    
+                  <div class="review-box">
+                    <h3>Write lesson review</h3>
+                     <%= form_with url: teacher_reviews_path(@lesson.teacher), local: true do |f| %>
+                         <div class="form-group">
+                           <%= f.text_area(
+                           :body, cols: 30, rows: 3,
+                           placeholder: "How did you think about your lesson",
+                           class: "form-control"
+                           ) %><br>
+                           <%= f.label :rating %>
+                           <%= f.number_field :rating, in: 1..5 %>
+                           <%= f.hidden_field :lesson, value: params[:id] %>
+                           <%= f.hidden_field :comment, value:"just for hidden field" %>
+                         </div>
+                         <%= f.submit 'Submit', class: 'btn btn-warning col-4 text-center'  %>
+                       <% end %>
+                  <% end %>
+                  </div>
+
+</div>

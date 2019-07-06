@@ -1,0 +1,70 @@
+
+<div class="container card card-body border-0 col-lg-6 padding">
+
+    <% if @teacher.errors.any? %>
+        <p class="alert alert-danger alert-dismissible fade show" data-toggle="collapse"><button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button><%=  @teacher.errors.full_messages.join(', ') %>
+        </p>
+    <% end %>
+
+  <div class="row welcome text-center">
+		<div class="col-12">
+            <h3>Create your lesson</h3>
+        </div>
+   </div>
+    
+        <div class="new-teacher-form">
+        <%= form_with(model: @teacher,  local: true) do |f| %>
+
+            <div class="form-group">
+                <%= f.label :description, class:"form-label" %>
+                <%= f.text_area :description, class:"form-control",
+                 placeholder: 'Introduce Yourself' %>
+            </div>
+
+            <div class="form-group">
+                <%= f.label :price, class:"form-label" %>
+                <%= f.number_field :price, class:"form-control",placeholder: 'Your lesson price per hour' %>CAD
+            </div> 
+
+            <div class="form-group">
+                <%= f.label :address, class:"form-label"%>
+                <%= f.text_field :address, class:"form-control", placeholder: 'Where do you teach?' %>
+            </div>
+
+            <div class="form-group">
+                    <%= f.collection_check_boxes :teacher_timeslots, Timeslot.all, :id, :day do |b| %>
+                         <div class="tag-wrapper">
+                            <%= b.object.day.humanize %>
+                            <%= b.object.time %>
+                            <%= b.check_box %>
+                        </div> 
+                    <% end %>
+            </div>
+
+            <div class="form-group">
+                    <%= f.label :language_names, value="Language" %>
+                    <%= f.text_field :language_names %>
+            </div>
+
+            <%= f.submit 'Create!', class: 'btn btn-warning col-12 col-md-3 full-width' %>
+        <% end %>
+    </div>
+   
+</div>
+
+
+ <script>
+  $("#teacher_language_names").selectize({
+    delimiter: ',',
+    persist: false,
+    labelField: "name",
+    valueField: "name",
+    searchField: "name",
+    options: <%= Language.select(:name).to_json(except: [:id]).html_safe %>,
+    create (input) {
+      return { name: input }
+    }
+  })
+</script>

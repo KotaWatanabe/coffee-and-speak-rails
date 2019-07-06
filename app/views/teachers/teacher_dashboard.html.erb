@@ -1,0 +1,115 @@
+<div class="container-fluid padding">
+  <div class="row welcome text-center">
+		<div class="col-12">
+            <h1>Teacher dashboard</h1>
+        </div>
+   </div>
+    <div class="dashboard-wrapper">
+
+    <div class="lesson-box">
+       <div class="upcoming-classes teacher-card">
+            <h3 class="text-center" >Your Upcoming lesson</h3>
+                <% if @approved_lessons.length > 0 && @payed_lessons.length === 0 %>
+                    <p class="text-center">Waiting for payment from student</p>
+                <% end %>
+                <% if @payed_lessons.length === 0 %>
+                    <p class="text-center">You don't have any confirmed lesson</p>
+                <% end %>
+                <% @payed_lessons.each do |lesson| %>
+                    <div class="teacher-box">        
+                        <div class=teacher-image> 
+                          <% if lesson.user.avatar.attached? %>
+                              <%= image_tag lesson.user.avatar, :class => "dashboard-image" %>
+                          <% else %>
+                              <%= image_tag("default.png") %>
+                          <% end %>
+                        </div>
+                        <div class="teacher-content">
+                            <p>Student's Name<p>
+                            <h4><%= lesson.user.full_name %></h4>
+                            <h4><%= link_to "Lesson detail", lesson_path(lesson)%></h4>
+                            <p>Message from student: <%= lesson.comment %></p>
+                            <p>Answer from Teacher: <%= lesson.answer %></p>
+                        </div>
+                    </div>               
+                <% end %>
+        </div>
+
+        <div class="waiting-lessons teacher-card">
+            <h3 class="text-center" >Waiting for pay confirmation</h3>
+            <% if @approved_lessons.length === 0 %>
+                <p class="text-center">You don't have any payment status lesson</p>
+             <% end %>
+                <% @approved_lessons.each do |lesson| %>
+                    <div class="teacher-box">        
+                        <div class=teacher-image> 
+                                <% if lesson.user.avatar.attached? %>
+                                    <%= image_tag lesson.user.avatar, :class => "dashboard-image" %>
+                                <% else %>
+                                    <%= image_tag("default.png") %>
+                                <% end %>
+                        </div>
+                        <div class="teacher-content">
+                            <p>Student's Name<p>
+                            <h4><%= lesson.user.full_name %></h4>
+                            <h4><%= link_to "Lesson detail", lesson_path(lesson)%></h4>
+                            <p>Message from student: <%= lesson.comment %></p>
+                            <p>Answer from Teacher: <%= lesson.answer %></p>
+                        </div>
+                    </div>
+            <% end %>
+        </div>
+
+        <div class="requested-lessons teacher-card">
+            <h4 class="text-center">Requested lesson</h4>
+                <% if @requested_lessons.length === 0 %>
+                    <p class="text-center">You don't have any requested lesson</p>
+                <% end %>
+               <% @requested_lessons.each do |lesson| %>
+                    <div class="teacher-box">        
+                        <div class=teacher-image> 
+                          <% if lesson.user.avatar.attached? %>
+                              <%= image_tag lesson.user.avatar, :class => "dashboard-image" %>
+                          <% else %>
+                              <%= image_tag("default.png") %>
+                          <% end %>
+                        </div>
+                        <div class="teacher-content">
+                            <p>Student's Name<p>
+                            <h4><%= lesson.user.full_name %></h4>
+                            <h4><%= link_to "Lesson detail", lesson_path(lesson)%></h4>
+                            <p>Message from student: <%= lesson.comment %></p>
+                        </div>
+                    </div>               
+        
+
+                     <%= form_with url: approve_lesson_path, :method => :PUT, local: true do |f| %>
+
+                        <div class="form-group">
+                            <%= f.label :answer,  value="Message", class:"form-label" %>
+                            <%= f.text_area :answer, class:"form-control",
+                            placeholder: 'Send message' %>
+                            <%= f.hidden_field :lesson, value: lesson.id %>
+                            <%= f.hidden_field :user, value: lesson.user.id %>
+                            <%= f.hidden_field :comment, value: lesson.comment %>
+                        </div>
+                        <%= f.submit 'Approve!', class: 'btn btn-warning col-12 col-md-3 full-width' %>
+                    <% end %>
+
+                     <%= form_with url: decline_lesson_path, :method => :PUT, local: true do |f| %>
+
+                        <div class="form-group">
+                            <%= f.label :answer,  value="Message", class:"form-label" %>
+                            <%= f.text_area :answer, class:"form-control",
+                            placeholder: 'Send message' %>
+                            <%= f.hidden_field :lesson, value: lesson.id %>
+                            <%= f.hidden_field :user, value: lesson.user.id %>
+                            <%= f.hidden_field :comment, value: lesson.comment %>
+                        </div>
+                        <%= f.submit 'Decline', class: 'btn btn-primary col-12 col-md-3 full-width' %>
+                    <% end %>
+               <% end %>
+        </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,166 @@
+<div class="container-fluid padding">
+  <div class="teacher-wrapper">
+    <div class="teacher-profile-box">
+        <div class="teacher-show-box">
+            <div class="teacher-show-image"> 
+               <% if @teacher.user.avatar.attached? %>
+                  <%= image_tag url_for(@teacher.user.avatar), :class => "show-image"%>
+               <% else %>
+                  <%= image_tag("default.png") %>
+              <% end %>
+            </div><!--teacher-image-->
+           <div class="teacher-show-content">
+              <div class="teacher-description">
+                <h2><%= @teacher.user.full_name %></h2>
+                <div class="language-tag">
+                  <% unless @teacher.languages.empty? %>
+                      <% @teacher.languages.each do |language| %>
+                      <%= link_to(language.name, teachers_path(language: language.name), class: "badge badge-pill badge-primary") %>
+                      <% end %>
+                  <% end %>  
+                </div><!--tag-->
+                  <h5>Price:</h5>
+                  <h6>$<%= @teacher.price %> CAD</h6>
+                  <h6><%= @teacher.description %></h6>
+                  
+                    <% unless @teacher.reviews.empty? %>
+                      <p>Review:
+                        <% @avg_rating.floor.times do  %>
+                            <span class="fa fa-star checked"></span>
+                        <% end %>
+                              <% (5 - (@avg_rating.floor)).times do %>
+                            <span class="fa fa-star"></span>
+                        <%end%>
+                      <% else %>
+                      <p>0 reviews</p>
+                    <% end %>
+                    <span class="like-button">
+                 
+                      <% if @favourite.present? %>
+                        <%= link_to fa_icon('thumbs-up 2x'), favourite_path(@favourite) , method: :delete, style: 'color: blue;' %>
+                      <% else %>
+                        <%= link_to fa_icon('thumbs-up 2x'), teacher_favourites_path(@teacher), method: :post, style: 'color: grey;' %>
+                      <% end %>
+                    </span>
+                    <h5>Availability:</h5>
+                      <% unless @teacher.timeslots.empty? %>
+                        <div>
+                          <% @teacher.timeslots.each do |timeslot| %>
+                          <h6><%= timeslot.day %><span class="timeslot-time"><%= timeslot.time %></span></h6>
+                        </div>
+                          <% end %>
+                      <% end %>  
+                      <!--
+                      <small>
+                         <%= link_to(
+                         "Delete",
+                         teacher_path(@teacher),
+                         method: :delete, data: {
+                           confirm: "Are you sure?"
+                         }
+                         ) %>
+                      </small>
+                      <small>
+                         <%= link_to(
+                         "Edit",
+                        edit_teacher_path(@teacher)
+                         ) %>
+                      </small>
+                      -->
+                    
+            
+          
+            <!-----------------------map------------------------------>
+                  <div style='width: 600px;'>
+                    <div id="map" style='width: 600px; height: 400px;'></div>
+                  </div>
+
+                  <script>
+                    const handler = Gmaps.build('Google');
+                    handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+                      markers = handler.addMarkers([
+                        {
+                          "lat": <%= @teacher.latitude %>,
+                          "lng": <%= @teacher.longitude %>,
+                          "infowindow": "<%= @teacher.user.first_name %>'s location"
+                        }
+                      ]);
+                      handler.bounds.extendWith(markers);
+                      handler.fitMapToBounds();
+                      handler.getMap().setZoom(12)
+                    });
+
+                  </script>
+            <!-----------------------map------------------------------>
+      
+            
+          </div><!--content-->
+          </div><!--description-->
+
+
+           </div><!--teacher-show-box-->
+
+
+            <hr />
+            
+     <h3 class="review-title"> Reviews: </h3>
+
+    <ul class="review-list">
+      <% @reviews.each do |review| %>
+        <li>
+          <p class="mb-0">Rating:                         
+          <% review.rating.floor.times do  %>
+             <span class="fa fa-star checked"></span>
+          <% end %>
+          <% (5 - (review.rating.floor)).times do %>
+              <span class="fa fa-star"></span>
+          <%end%>
+          <%= review.rating %></p><br />
+           <p class="mb-0"><%= review.body %> </p> <br />
+          <small>
+            <%= link_to(
+            "Delete",
+            review_path(review),
+            method: :delete, data: {
+              confirm: "Are you sure?"
+            }
+            ) %>
+          </small>
+          <small>
+            Reviewd <%= time_ago_in_words(review.created_at) %> ago by <%= review.user.full_name %>
+          </small>
+        </li>
+      <% end %>
+     </ul>
+    </div>
+
+    </div><!--teacher-profile-box-->
+    <div class="teacher-booking-box">
+      <div class="row welcome text-center">
+        <div class="col-12">
+                <h1 class="display-4">Lesson request</h1>
+                <hr>
+        </div>
+      </div>
+
+         <!--form_with url: "/lessons", scope: "lesson" do |f| --> 
+         <div class="request-box">
+        <%= form_with url: lessons_path, local: true do |f| %>
+            <div class="form-group">
+                <%= f.label :comment, value:"Comment" %>
+                <%= f.text_area :comment, class: 'form-control', placeholder: 'Anything you want to ask to the teacher' %>
+            </div>
+              <h5>Price: <%=@teacher.price%>CAD</h5>              
+              <p>Once Teacher approved, pay with your credit card</p>
+              <%= f.hidden_field :user, value: current_user.id %>
+              <%= f.hidden_field :teacher, value: params[:id] %>
+            <%= f.submit 'Send Request!', class: 'btn btn-warning col-lg-4 request-button' %>
+        <% end %>
+        </div>
+    </div><!--"teacher-booking-box"-->
+
+    </div><!--"teacher-wrapper"-->
+
+</div><!--container-->
+</div>
+

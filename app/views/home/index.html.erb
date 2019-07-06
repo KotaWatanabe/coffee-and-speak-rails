@@ -1,0 +1,49 @@
+<div class="top-wrapper img-fluid">
+<div class="top-wrapper-items">
+     <div class="welcome-title">
+        <h1 class="h1 display-1">Coffee and Speak</h1>
+        <p class="lead display-4">Find your best private teacher</p>
+    </div>
+     <div class="btn-wrapper">
+       <% if !user_signed_in? %>
+         <%= link_to "Sign Up!", new_user_path, class:"btn signup"%>
+       <% else %>
+          <%= link_to "Become a Teacher?", new_teacher_path, class:"btn new-teacher"%>
+       <% end %>
+    </div>
+
+    <div class="login-modal-wrapper" id="login-modal">
+     <div class="modal">
+      <div id="login-form">
+        <h2>Email Login</h2>
+        
+        <%= form_with url: session_path, local: true do |f| %>
+
+            <div class="form-group">
+                <%= f.label :email %>
+                <%= f.email_field :email, class: 'form-control', placeholder: 'Email Address' %>
+            </div>
+
+            <div class="form-group">
+                <%= f.label :password %>
+                <%= f.password_field :password, class: 'form-control', placeholder: 'Password' %>
+            </div>
+
+
+            <%= f.submit "Sign In", class: 'btn btn-warning col-8 col-md-3' %>
+
+            <div class='row d-flex'>
+                <div class="ml-auto ">
+                    <%= link_to 'Sign Up', new_user_path, class: 'btn text-primary' %>/<%= link_to 'Forgot pasword?', new_user_path, class: 'btn text-primary' %>
+                </div>
+            </div>
+
+        <% end %>
+            </div>  
+            </div>
+        </div>
+</div>
+
+</div>
+  
+

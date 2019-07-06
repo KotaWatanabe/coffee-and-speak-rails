@@ -1,0 +1,214 @@
+<div class="container-fluid padding">
+  <div class="row welcome text-center">
+		<div class="col-12">
+            <h1>My Dashboard</h1>
+        </div>
+   </div>
+    <div class="dashboard-wrapper">
+
+        <div class="lesson-box"><div class="upcoming-classes teacher-card">
+            <h3 class="text-center" >Your Upcoming class</h3>
+             <% if @approved_lessons.length > 0 && @confirmed_lessons.length === 0 %>
+                <p class="text-center">Please pay to confirm your lesson</p>
+             <% end %>
+             <% if @confirmed_lessons.length === 0 %>
+                <p class="text-center">You don't have any confirmed class</p>
+             <% end %>
+                <% @confirmed_lessons.each do |lesson| %>
+                    <div class="teacher-box">        
+                        <div class=teacher-image> 
+                                <% if lesson.teacher.user.avatar.attached? %>
+                                    <%= image_tag lesson.teacher.user.avatar, :class => "dashboard-image" %>
+                                <% else %>
+                                    <%= image_tag("default.png") %>
+                                <% end %>
+                        </div>
+                        <div class="teacher-content">
+                            <p>Teacher's Name<p>
+                            <h4><%= link_to(lesson.teacher.user.full_name, teacher_path(lesson.teacher)) %></h4>
+                             <% unless lesson.teacher.languages.empty? %>
+                                <% lesson.teacher.languages.each do |language| %>
+                                <%= link_to(language.name, teachers_path(language: language.name), class: "badge badge-pill badge-primary") %>
+                            <% end %>
+                  <% end %>  
+                            <h4><%= link_to("Lesson detail", lesson_path(lesson)) %></h4>
+                            <p>Your message: <%= lesson.comment %></p>
+                            <p>Answer from Teacher: <%= lesson.answer %></p>
+                        </div>
+                    </div>               
+                <% end %>
+        </div>
+         
+
+<div class="approved-lessons teacher-card">
+            <h3 class="text-center" >Your Approved lessons</h3>
+            <% if @requested_lessons.length > 0 && @approved_lessons.length === 0  %>
+                <p class="text-center">Waiting for teacher approval</p>
+             <% end %>
+            <% if @approved_lessons.length === 0  %>
+                <p class="text-center">You don't have any approved lesson</p>
+             <% end %>
+                <% @approved_lessons.each do |lesson| %>
+                    <div class="teacher-box">        
+                        <div class=teacher-image> 
+                                <% if lesson.teacher.user.avatar.attached? %>
+                                    <%= image_tag lesson.teacher.user.avatar, :class => "dashboard-image" %>
+                                <% else %>
+                                    <%= image_tag("default.png") %>
+                                <% end %>
+                        </div>
+                        <div class="teacher-content">
+                            <p>Teacher's Name<p>
+                            <h4><%= link_to(lesson.teacher.user.full_name, teacher_path(lesson.teacher)) %></h4>
+                             <% unless lesson.teacher.languages.empty? %>
+                                <% lesson.teacher.languages.each do |language| %>
+                                <%= link_to(language.name, teachers_path(language: language.name), class: "badge badge-pill badge-primary") %>
+                            <% end %>
+                  <% end %>  
+                            <h4><%= link_to("Lesson detail", lesson_path(lesson)) %></h4>
+                            <p>Your message: <%= lesson.comment %></p>
+                            <p>Answer from Teacher: <%= lesson.answer %></p>
+                        
+                        <%= form_with url: pay_lesson_path, :method => :PUT, local: true do |f| %>
+                        <div class="form-group">
+                        <%= f.hidden_field :lesson, value: lesson.id %>
+                        <%= f.hidden_field :teacher, value: lesson.teacher.id %>
+                        <%= f.hidden_field :comment, value: lesson.comment %>
+                        </div>
+                        <%= f.submit 'Pay now!', class: 'btn btn-warning col-12 col-md-3 full-width' %>
+                    <% end %>
+                    </div>
+                    </div>         
+                <% end %>
+                </div>
+        <div class="requested-lessons teacher-card">
+            <h3 class="text-center" >Your requested lessons</h3>
+            <% if @requested_lessons.length === 0 %>
+                <p class="text-center">You don't have any requested lesson</p>
+             <% end %>
+                <% @requested_lessons.each do |lesson| %>
+                <div class="teacher-box">        
+                    <div class=teacher-image> 
+                        <% if lesson.teacher.user.avatar.attached? %>
+                            <%= image_tag lesson.teacher.user.avatar, :class => "dashboard-image" %>
+                        <% else %>
+                            <%= image_tag("default.png") %>
+                        <% end %>
+                    </div>
+                    <div class="teacher-content">
+                        <p>Teacher's Name<p>
+                        <h4><%= link_to(lesson.teacher.user.full_name, teacher_path(lesson.teacher)) %></h4>
+                         <% unless lesson.teacher.languages.empty? %>
+                            <% lesson.teacher.languages.each do |language| %>
+                            <%= link_to(language.name, teachers_path(language: language.name), class: "badge badge-pill badge-primary") %>
+                            <% end %>
+                        <% end %>  
+                        <h4><%= link_to("Lesson detail", lesson_path(lesson)) %></h4>
+                        <p>Your message: <%= lesson.comment %></p>
+                    </div>
+                </div> 
+                <% end %>
+        </div>
+        <div class="declined-lessons teacher-card">
+            <h3 class="text-center" >Your declined lessons</h3>
+            <% if @declined_lessons.length === 0 %>
+                <p class="text-center">You don't have any declined lesson</p>
+             <% end %>
+                <% @declined_lessons.each do |lesson| %>
+                    <div class="teacher-box">        
+                        <div class=teacher-image> 
+                                <% if lesson.teacher.user.avatar.attached? %>
+                                    <%= image_tag lesson.teacher.user.avatar, :class => "dashboard-image" %>
+                                <% else %>
+                                    <%= image_tag("default.png") %>
+                                <% end %>
+                        </div>
+                        <div class="teacher-content">
+                            <p>Teacher's Name<p>
+                            <h4><%= link_to(lesson.teacher.user.full_name, teacher_path(lesson.teacher)) %></h4>
+                             <% unless lesson.teacher.languages.empty? %>
+                                <% lesson.teacher.languages.each do |language| %>
+                                <%= link_to(language.name, teachers_path(language: language.name), class: "badge badge-pill badge-primary") %>
+                                <% end %>
+                             <% end %>  
+                            <h4><%= link_to("Lesson detail", lesson_path(lesson)) %></h4>
+                            <p>Answer from Teacher: <%= lesson.answer %></p>
+                        </div>
+                    </div>         
+               
+                <% end %>
+        </div>
+
+       <div class="favourite-teachers teacher-card">
+            <h3 class="text-center" >Your favourited teachers</h3>
+                <% if @favourited_teachers.length === 0 %>
+                    <p class="text-center">You don't have favourited teacher</p>
+                <% end %>
+                <% @favourited_teachers.each do |teacher| %>
+                        <div class="teacher-box">
+                          <div class=teacher-image> 
+                            <% if teacher.user.avatar.attached? %>
+                                <%= image_tag teacher.user.avatar,:class => "dashboard-image"  %>
+                            <% else %>
+                                <%= image_tag("default.png") %>
+                            <% end %>
+                          </div>
+                            <div class="teacher-content">
+                                <p>Teacher name</p>
+                                <h4><%= link_to(teacher.user.full_name, teacher_path(teacher)) %> </h4>
+                                <h4>$<%= teacher.price %> CAD</h4>
+                                <% unless teacher.languages.empty? %>
+                                    <% teacher.languages.each do |language| %>
+                                    <%= link_to(language.name, teachers_path(language: language.name), class: "badge badge-pill badge-primary") %>
+                                    <% end %>
+                                <% end %>
+                                <h4><%= teacher.description %></h4>
+                                <% unless teacher.reviews.empty? %>
+                                    <div>
+                                        <p><%=teacher.reviews.length%> reviews</p>
+                                        Rating:
+                                       <% teacher.calculate_rating.to_i.times do  %>
+                                           <span class="fa fa-star checked"></span>
+                                       <% end %>
+                                       <% (5 - (teacher.calculate_rating.to_i)).times do  %>
+                                        <span class="fa fa-star"></span>
+                                        <%end%>
+                                    </div>
+                                      <% else %>
+                                        <p>0 reviews</p>
+                                 <% end %>                                 
+                                <%= link_to fa_icon('thumbs-up 2x'), favourite_path(teacher.favourite_ids) , method: :delete, style: 'color: blue;' %>
+                            </div>
+
+                        </div>  
+                <% end %>
+            </div>
+            <!-----------------review------------------->
+            <div class="completed-lessons teacher-card">
+            <h3 class="text-center" >Review for finished lesson!</h3>
+            <% if @finished_lessons.length === 0 %>
+                <p class="text-center">You don't have a completed lesson.</p>
+             <% end %>
+                <% @finished_lessons.each do |lesson| %>
+                        <div class="teacher-box">
+                          <div class=teacher-image> 
+                            <% if lesson.teacher.user.avatar.attached? %>
+                                <%= image_tag lesson.teacher.user.avatar,:class => "dashboard-image"  %>
+                            <% else %>
+                                <%= image_tag("default.png") %>
+                            <% end %>
+                          </div>
+                            <div class="teacher-content">
+                            <p>Teacher's Name<p>
+                            <h4><%= link_to(lesson.teacher.user.full_name, teacher_path(lesson.teacher)) %></h4>
+                                 <h4><%= link_to "Lesson detail page", lesson_path(lesson)%></h4>
+                            </div>
+
+                        </div>  
+                <% end %>
+
+        </div>
+
+    </div>
+</div>
+    

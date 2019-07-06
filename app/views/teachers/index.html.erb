@@ -1,0 +1,79 @@
+
+  <div class="row welcome text-center">
+		<div class="col-12">
+            <h1 class="display-4">Teachers</h1>
+        </div>
+          <div class="col-12">
+            <% @languages.each do |language| %>
+            <%= link_to(language.name, teachers_path(language: language.name), class: "badge badge-pill badge-primary") %>
+            <% end %>
+         </div>
+   </div>
+
+  
+   <% if @language.present? %>
+     <div class="row welcome text-center my-2">
+		<div class="col-12">
+            <h3>Showing teachers tagged by
+            <span class= "badge badge-pill badge-primary">
+                <%= @language.name %>
+            </span></h3>
+        </div>
+    <div class="col-12">
+            <p>Sort by  <%= link_to("Price", teachers_path(language: @language.name, price:"asc"), class: "badge badge-pill badge-warning") %> or <%= link_to("Rating", teachers_path(language: @language.name, rating:"desc"), class: "badge badge-pill badge-warning") %> </p>
+    </div>
+   </div>
+    <% end %>
+    
+		<hr>
+    <div class="row teachers-row">
+        <% @teachers.each do |teacher| %>
+            <div class="row col-md-6 col-lg-4 mx-auto">
+                <div class="card teacher-card border-0">
+                    <div class="card-body"> 
+                        <div class="teacher-box">
+                        <div class=teacher-image> 
+                            <% if teacher.user.avatar.attached? %>
+                                <%= image_tag url_for(teacher.user.avatar), :class => "index-image" %>
+                            <% else %>
+                                <%= image_tag url_for("default.png"), :class => "index-image"%>
+                            <% end %>
+                        </div>
+                            <div class="teacher-content">
+                                <h4 class="card-title">
+                                    <%= link_to(teacher.user.full_name, teacher_path(teacher)) %> <br />
+                                </h4>
+                                <p class="card-text"><%= teacher.description.first(80) %>... </p>
+                                <p class="card-text">$<%= teacher.price %> CAD</p>
+                                <% unless teacher.languages.empty? %>
+                                <div>
+                                    <% teacher.languages.each do |language| %>
+                                    <%= link_to(language.name, teachers_path(language: language.name), class: "badge badge-pill badge-primary") %>
+                                </div>
+                                <% end %>
+                                 <% end %>  
+                                <% unless teacher.reviews.empty? %>
+                                    <div>
+                                        <p><%=teacher.reviews.length%> reviews</p>
+                                        Review:
+                                       <% teacher.calculate_rating.to_i.times do  %>
+                                           <span class="fa fa-star checked"></span>
+                                       <% end %>
+                                       <% (5 - (teacher.calculate_rating.to_i)).times do  %>
+                                        <span class="fa fa-star"></span>
+                                        <%end%>
+                                    </div>
+                                      <% else %>
+                                        <p>0 reviews</p>
+                                 <% end %>  
+                                    <small>
+                                    Posted <%= time_ago_in_words(teacher.created_at)  %> ago
+                                    </small>
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+            </div>  
+        <% end %>
+    </div>
+</div>
