@@ -2,7 +2,7 @@ class AvailabilitySerializer < ActiveModel::Serializer
   attributes (
     :id,
     :start,
-    :end
+    :end,
     :created_at, 
     :updated_at
   )
