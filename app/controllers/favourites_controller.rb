@@ -12,7 +12,7 @@ class FavouritesController < ApplicationController
             if favourite.save
                 redirect_to teacher, notice: 'Favourited'
             end
-          end
+        end
     
           def destroy
             favourite = Favourite.find params[:id]
